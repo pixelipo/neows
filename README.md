@@ -25,3 +25,8 @@ App offers 4 modes:
 - **[4] Generate plot data**: Format data into Google Charts readable format
 
 Start the app by running `python3 main.py` from root folder. Select appropriate mode and wait for "success".
+
+
+## Example
+
+![alt text](sample.png?raw=true)
