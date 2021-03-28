@@ -18,4 +18,10 @@ config = {
 }
 ```
 
-App offers 3 modes - **Browse**, **Lookup** and **Feed**. As of March 26th, only **Browse** is supported.
+App offers 4 modes:
+- **[1] Browse**: Get data from API and into DB
+- **[2] Lookup**: TODO
+- **[3] Feed**: TODO
+- **[4] Generate plot data**: Format data into Google Charts readable format
+
+Start the app by running `python3 main.py` from root folder. Select appropriate mode and wait for "success".

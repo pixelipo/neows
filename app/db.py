@@ -4,7 +4,7 @@ import sqlite3
 def initDb(dbName):
     conn = sqlite3.connect(dbName)
 
-    ## Do some setup
+    # Do some setup
     # cur = conn.cursor()
     # cur.executescript('''
     # DROP TABLE IF EXISTS Object;
@@ -27,7 +27,7 @@ def initDb(dbName):
     # );
     # ''')
 
-    print("Database initialized")
+    # print("Database initialized")
 
     return(conn)
 
@@ -42,3 +42,6 @@ def insertApproach(cur, date, miss, object_id):
         '''INSERT OR IGNORE INTO Approach (date, miss, object_id) VALUES ( ?, ?, ? )''',
         ( date, miss, object_id )
     )
+
+def getApproaches(cur):
+    return cur.execute('SELECT Object.name, Approach.date, Approach.miss FROM Approach JOIN Object ON Approach.object_id = Object.id ')
