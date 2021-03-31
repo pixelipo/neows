@@ -1,36 +1,29 @@
-import urllib.request, urllib.parse, urllib.error
-import ssl
 import json
+import requests
 
 from app import db
 
+
 def crawl (baseUrl, parms, total):
-    # Ignore SSL certificate errors
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
 
     print('Fetching ', str(parms['size']), 'items from page', str(parms['page']) + '/' + str(total))
-    url = baseUrl + urllib.parse.urlencode(parms)
-    # print(url)
-    uh = urllib.request.urlopen(url, context=ctx)
-    data = uh.read().decode()
+    response = requests.get(baseUrl, params=parms)
 
     # fetch remaining rate limit from response headers
-    remaining = uh.info()['X-RateLimit-Remaining']
+    remaining = response.headers['X-RateLimit-Remaining']
     print('Requests remaining:', remaining)
     if (int(remaining) == 0) : return 0
 
-    print('Retrieved', len(data), 'characters')
+    print('Retrieved', len(response.text), 'characters')
 
     try:
-        js = json.loads(data)
+        js = response.json()
         parms['page'] = str(int(parms['page']) + 1)
         total = int(js['page']['total_pages'])
     except err:
         return err
 
-    # print(js['links'])
+
     conn = db.initDb('data/db.sqlite3')
     cur = conn.cursor()
 
@@ -56,3 +49,17 @@ def crawl (baseUrl, parms, total):
             )
 
     return total
+
+
+def lookup(name, params):
+    conn = db.initDb('data/db.sqlite3')
+    cur = conn.cursor()
+
+    id = db.getObjectId(cur, name)
+    if id is None:
+        return "Object not found"
+
+    url = 'https://api.nasa.gov/neo/rest/v1/neo/'+str(id[0])+'/?'
+    response = requests.get(url, params=params)
+
+    return json.dumps(response.json(), indent=2)

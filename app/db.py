@@ -45,3 +45,7 @@ def insertApproach(cur, date, miss, object_id):
 
 def getApproaches(cur):
     return cur.execute('SELECT Object.name, Approach.date, Approach.miss FROM Approach JOIN Object ON Approach.object_id = Object.id ')
+
+def getObjectId(cur, name):
+    res = cur.execute('SELECT id FROM Object WHERE name LIKE ?', ('%'+name+'%',))
+    return res.fetchone()
