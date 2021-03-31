@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <title>Near Earth Objects Visualisation</title>
         <!-- <script type="text/javascript" src="https://d3js.org/d3.v6.min.js"></script> -->
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="../data/encounters.js" charset="utf-8"></script>
         <script type="text/javascript">
-            google.load("visualization", "1", {packages:["corechart"]});
+            google.charts.load('current', {'packages':['corechart']});
             // google.load("visualization", "1", {packages:["scatter"]});
             google.setOnLoadCallback(drawChart);
 
@@ -15,21 +15,18 @@
                 var data = google.visualization.arrayToDataTable(encounters);
 
                 var options = {
-                title: document.title,
-                chartArea: {left:'10%',top:'10%', width: '65%', height: '80%'},
-                vAxis: {
-                    scaleType: 'log',
-                    title: 'Lunar distances',
-                    maxValue: 1
-                },
-                hAxis: {
-                        title: 'Year of close approach'
-                },
-                lineWidth: 0,
-                pointsVisible: true
+                    title: document.title,
+                    hAxis: {
+                        title: 'Year',
+                    },
+                    vAxis: {
+                        title: 'Distance (lunar distances)',
+                        scaleType: 'log',
+                    },
+                    // legend: 'none'
                 };
 
-                var chart = new google.visualization.LineChart(document.getElementById('chart'));
+                var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
                 // var chart = new google.charts.Scatter(document.getElementById('chart'));
                 chart.draw(data, options);
                 // chart.draw(data, google.charts.Scatter.convertOptions(options));
@@ -37,7 +34,7 @@
         </script>
     </head>
     <body>
-        <div class="chart" id="chart" style="height: 600px">
+        <div class="chart" id="chart" style="width: 900px; height: 600px">
 
         </div>
     </body>

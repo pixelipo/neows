@@ -1,3 +1,4 @@
+import os
 from dotenv import dotenv_values
 # import time
 
@@ -14,7 +15,7 @@ except:
     print("Credentials file not found, using limited 'DEMO_KEY'\n")
 
 
-service = input("Select service:\n[1] Crawl\n[2] Lookup\n[3] Feed (disabled)\n[4] Generate plot data\n")
+service = input("Select service:\n[1] Crawl\n[2] Lookup object\n[3] Feed (disabled)\n[4] Generate chart\n")
 
 ## Browse data
 if (service == '1'):
@@ -41,5 +42,7 @@ if (service == '3'):
     parms['end_date'] = '2020-09-25'
 
 if (service == '4'):
-    encounters = line.approach()
-    print(line.jsonify(encounters))
+    inp = input("Set year range [from,to]:\n")
+    encounters = line.approach(inp.split(','))
+    if (line.jsonify(encounters)):
+        print('Plot generated, open file://'+os.getcwd()+'/www/index.html')
